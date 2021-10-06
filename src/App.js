@@ -1,11 +1,11 @@
 import { Fragment } from 'react'
 import { Switch, Route } from 'react-router-dom'
-import { Home } from './page/Home/Home'
 import { Header } from './components/Header/Header'
 import { Footer } from './components/Footer/Footer'
-import { Signin } from './page/Signin/Signin'
-import { User } from './page/User/User'
-import { E404 } from './page/E404/E404'
+import { Home } from './pages/Home/Home'
+import { Signin } from './pages/Signin/Signin'
+import { User } from './pages/User/User'
+import { E404 } from './pages/E404/E404'
 
 function App() {
 	return (
@@ -18,7 +18,7 @@ function App() {
 				<Route path="/sign-in">
 					<Signin />
 				</Route>
-				<Route path="/user/:id">
+				<Route path="/user/:token">
 					<User />
 				</Route>
 				<Route path="*">
