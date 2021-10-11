@@ -17,7 +17,7 @@ export class UserService {
 				},
 			})
 			const data = await response.json()
-			return data.body?.token
+			return data
 		} catch (error) {
 			console.error('Unable to get user token', error)
 		}

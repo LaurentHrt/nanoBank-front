@@ -15,10 +15,13 @@ export function Signin() {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
-		const token = await userService.getUserToken(username, password)
+		const response = await userService.getUserToken(username, password)
+		const token = response.body?.token
 		if (token) {
 			console.log('Token:', token)
 			dispatch(setLoggedIn(true, token))
+		} else {
+			window.alert(response.message)
 		}
 	}
 
