@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setUserInfos } from '../../action'
-import { UserService } from '../../service/user.service'
+import { setUserInfos } from '../../features/action'
+import { UserService } from '../../utils/service/user.service'
 
 export default function UserHeader() {
 	const token = useSelector((state) => state.token)

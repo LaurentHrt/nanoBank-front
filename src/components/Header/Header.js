@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import logo from '../../assets/images/argentBankLogo.png'
 import { useLocation } from 'react-router'
-import { setLoggedIn } from '../../action'
+import { setLoggedIn } from '../../features/action'
 
 export function Header() {
 	const isLoggedIn = useSelector((state) => state.isLoggedIn)

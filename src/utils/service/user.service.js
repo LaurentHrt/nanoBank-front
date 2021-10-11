@@ -6,21 +6,21 @@ export class UserService {
 		const headers = {
 			'Content-type': 'application/json',
 		}
-		const body = {
+		const body = JSON.stringify({
 			email: username,
 			password: password,
-		}
+		})
 
 		try {
 			const response = await fetch(request, {
 				method: 'POST',
-				body: JSON.stringify(body),
+				body: body,
 				headers: headers,
 			})
 			const data = await response.json()
 			return data
 		} catch (error) {
-			console.error('Unable to get user token', error)
+			console.error('Unable to reach server', error)
 		}
 	}
 
@@ -39,7 +39,7 @@ export class UserService {
 			const data = await response.json()
 			return data
 		} catch (error) {
-			console.error('Unable to get user name', error)
+			console.error('Unable to reach server', error)
 		}
 	}
 
@@ -49,21 +49,21 @@ export class UserService {
 			Authorization: 'Bearer ' + token, // ??? Backend -> tokenValidation.js l.12
 			'Content-type': 'application/json',
 		}
-		const body = {
+		const body = JSON.stringify({
 			firstName: firstName,
 			lastName: lastName,
-		}
+		})
 
 		try {
 			const response = await fetch(request, {
 				method: 'PUT',
-				body: JSON.stringify(body),
+				body: body,
 				headers: headers,
 			})
 			const data = await response.json()
 			return data
 		} catch (error) {
-			console.error('Unable to rename user', error)
+			console.error('Unable to reach server', error)
 		}
 	}
 }
