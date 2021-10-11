@@ -11,7 +11,6 @@ export function Signin() {
 
 	const dispatch = useDispatch()
 	const isLoggedIn = useSelector((state) => state.isLoggedIn)
-	const token = useSelector((state) => state.token)
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
@@ -60,5 +59,5 @@ export function Signin() {
 		</main>
 	)
 
-	return isLoggedIn ? <Redirect to={`user/${token}`} /> : form
+	return isLoggedIn ? <Redirect exact to={`user`} /> : form
 }

@@ -15,10 +15,10 @@ function App() {
 				<Route exact path="/">
 					<Home />
 				</Route>
-				<Route path="/sign-in">
+				<Route exact path="/sign-in">
 					<Signin />
 				</Route>
-				<Route path="/user/:token">
+				<Route exact path="/user">
 					<User />
 				</Route>
 				<Route path="*">

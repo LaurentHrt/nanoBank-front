@@ -1,11 +1,29 @@
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { Redirect } from 'react-router'
+import { UserService } from '../../service/user.service'
+
 export function User() {
-	return (
+	const isLoggedIn = useSelector((state) => state.isLoggedIn)
+	const token = useSelector((state) => state.token)
+	const [userInfos, setUserInfos] = useState({})
+
+	useEffect(() => {
+		const userService = new UserService()
+		userService.getUserInfos(token).then((userInfos) => {
+			if (userInfos.body) {
+				setUserInfos(userInfos.body)
+			}
+		})
+	}, [token])
+
+	const page = (
 		<main className="main bg-dark">
 			<div className="header">
 				<h1>
 					Welcome back
 					<br />
-					Tony Jarvis!
+					{userInfos.firstname} {userInfos.lastName}!
 				</h1>
 				<button className="edit-button">Edit Name</button>
 			</div>
@@ -60,4 +78,6 @@ export function User() {
 			</section>
 		</main>
 	)
+
+	return isLoggedIn ? page : <Redirect exact to={`sign-in`} />
 }

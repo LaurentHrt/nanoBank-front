@@ -16,14 +16,14 @@ export function Header() {
 	let linkToLogin
 	if (!isLoggedIn)
 		linkToLogin = (
-			<Link className="main-nav-item" to="sign-in">
+			<Link className="main-nav-item" to="/sign-in">
 				<i className="fa fa-user-circle"></i>
 				Sign In
 			</Link>
 		)
 	else if (location.pathname === '/')
 		linkToLogin = (
-			<Link className="main-nav-item" to="user/token">
+			<Link className="main-nav-item" to="/user">
 				<i className="fa fa-user-circle"></i>
 				Account
 			</Link>
