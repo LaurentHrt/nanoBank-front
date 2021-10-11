@@ -1,69 +1,54 @@
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { setUserInfos } from '../../action'
 import { UserService } from '../../service/user.service'
 
 export default function UserHeader() {
 	const token = useSelector((state) => state.token)
-	const [firstName, setFirstName] = useState({})
-	const [lastName, setLastName] = useState({})
+	const userInfos = useSelector((state) => state.userInfos)
+	const dispatch = useDispatch()
+
 	const [editedFirstName, setEditedFirstName] = useState({})
 	const [editedLastName, setEditedLastName] = useState({})
 	const [editMode, setEditMode] = useState(false)
-	const userService = new UserService()
 
-	const handleEdit = (e) => {
-		setEditMode(true)
+	const toogleEdit = (e) => {
+		setEditMode(!editMode)
 	}
 
 	const handleSave = async (e) => {
+		const userService = new UserService()
 		const response = await userService.renameUser(
 			editedFirstName,
 			editedLastName,
 			token
 		)
 		if (response.status === 200 && response.body) {
-			setFirstName(response.body.firstName)
-			setLastName(response.body.lastName)
+			dispatch(setUserInfos(response.body))
 			setEditMode(false)
 		} else window.alert(response.message)
 	}
 
-	const handleCancel = (e) => {
-		setEditMode(false)
-	}
-
 	useEffect(() => {
+		const userService = new UserService()
 		userService.getUserInfos(token).then((userInfos) => {
 			if (userInfos.body) {
-				setFirstName(userInfos.body.firstName)
-				setLastName(userInfos.body.lastName)
+				dispatch(setUserInfos(userInfos.body))
 				setEditedFirstName(userInfos.body.firstName)
 				setEditedLastName(userInfos.body.lastName)
 			}
 		})
-	}, [token])
+	}, [token, dispatch])
 
 	const textInputs = (
 		<div>
 			<input
-				type="text"
-				id="firstName"
 				name="firstName"
-				required
-				minLength="2"
-				maxLength="20"
-				size="15"
 				value={editedFirstName}
 				onChange={(e) => setEditedFirstName(e.target.value)}
 			/>
 			<input
-				type="text"
-				id="lastName"
 				name="lastName"
-				required
-				minLength="2"
-				maxLength="20"
-				size="15"
 				value={editedLastName}
 				onChange={(e) => setEditedLastName(e.target.value)}
 			/>
@@ -75,14 +60,14 @@ export default function UserHeader() {
 			<button className="save-button" onClick={handleSave}>
 				Save
 			</button>
-			<button className="cancel-button" onClick={handleCancel}>
+			<button className="cancel-button" onClick={toogleEdit}>
 				Cancel
 			</button>
 		</div>
 	)
 
 	const editButton = (
-		<button className="edit-button" onClick={handleEdit}>
+		<button className="edit-button" onClick={toogleEdit}>
 			Edit Name
 		</button>
 	)
@@ -92,7 +77,9 @@ export default function UserHeader() {
 			<h1>
 				Welcome back
 				<br />
-				{editMode ? textInputs : `${firstName} ${lastName}!`}
+				{editMode
+					? textInputs
+					: `${userInfos.firstName} ${userInfos.lastName}!`}
 			</h1>
 			{editMode ? SaveCancelButtons : editButton}
 		</div>
