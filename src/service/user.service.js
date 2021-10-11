@@ -43,15 +43,15 @@ export class UserService {
 		}
 	}
 
-	async renameUser(firstname, lastname, token) {
+	async renameUser(firstName, lastName, token) {
 		const request = linkToBackend + 'user/profile'
 		const headers = {
 			Authorization: 'Bearer ' + token, // ??? Backend -> tokenValidation.js l.12
 			'Content-type': 'application/json',
 		}
 		const body = {
-			fistname: firstname,
-			lastname: lastname,
+			firstName: firstName,
+			lastName: lastName,
 		}
 
 		try {
