@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { UserService } from '../../utils/service/user.service'
-import { setLoggedIn } from '../../features/action'
+import { setLoggedIn } from '../../action'
 import { useDispatch, useSelector } from 'react-redux'
 import { Redirect } from 'react-router'
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setUserInfos } from '../../features/action'
+import { setUserInfos } from '../../action'
 import { UserService } from '../../utils/service/user.service'
 
 export default function UserHeader() {
