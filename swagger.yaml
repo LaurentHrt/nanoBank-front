@@ -67,6 +67,7 @@ paths:
             description: API for fetching a user profile
             parameters:
                 - in: header
+                  type: string
                   name: Authorization
                   description: Attach Bearer JWT token
                   required: true
@@ -90,6 +91,7 @@ paths:
             description: API for updating a user profile
             parameters:
                 - in: header
+                  type: string
                   name: Authorization
                   description: Attach Bearer JWT token
                   required: true
@@ -110,29 +112,210 @@ paths:
                     description: Invalid Fields
                 '500':
                     description: Internal Server Error
-    /user/{username}/transactions:
+    /account:
         get:
             security:
                 - Bearer: []
             tags:
-                - 'User Module'
-            summary: 'Get user transactions'
-            description: 'API for getting a user list of transaction'
+                - 'Account Module'
+            summary: 'Find all user accounts'
+            description: 'API for fetching all user account'
             produces:
                 - 'application/json'
             parameters:
                 - in: header
+                  type: string
                   name: Authorization
                   description: Attach Bearer JWT token
                   required: true
-                - name: 'username'
+            responses:
+                '200':
+                    description: 'User accounts retrieved sucessfully'
+                    schema:
+                        $ref: '#/definitions/AccountResponse'
+                '400':
+                    description: Invalid Fields
+                '500':
+                    description: Internal Server Error
+    /account/{accountId}:
+        get:
+            security:
+                - Bearer: []
+            tags:
+                - 'Account Module'
+            summary: 'Find account by ID'
+            description: 'API for fetching a single user account'
+            produces:
+                - 'application/json'
+            parameters:
+                - in: header
+                  type: string
+                  name: Authorization
+                  description: Attach Bearer JWT token
+                  required: true
+                - name: 'accountId'
                   in: 'path'
-                  description: 'Email of the user'
+                  description: 'Id of the account'
                   required: true
                   type: 'string'
             responses:
                 '200':
-                    description: 'successful operation'
+                    description: 'User account retrieved sucessfully'
+                    schema:
+                        $ref: '#/definitions/AccountResponse'
+                '400':
+                    description: Invalid Fields
+                '500':
+                    description: Internal Server Error
+    /transaction:
+        post:
+            security:
+                - Bearer: []
+            tags:
+                - 'Transaction Module'
+            summary: 'Add new transaction'
+            description: 'API for adding a new transaction'
+            produces:
+                - 'application/json'
+            parameters:
+                - in: header
+                  type: string
+                  name: Authorization
+                  description: Attach Bearer JWT token
+                  required: true
+                - in: body
+                  name: body
+                  description: Update transaction attributes
+                  required: true
+                  schema:
+                      $ref: '#/definitions/Transaction'
+            responses:
+                '200':
+                    description: 'Account transaction created sucessfully'
+                    schema:
+                        $ref: '#/definitions/TransactionResponse'
+                '400':
+                    description: Invalid Fields
+                '500':
+                    description: Internal Server Error
+    /transaction/{accountId}:
+        get:
+            security:
+                - Bearer: []
+            tags:
+                - 'Transaction Module'
+            summary: 'Find transactions by account ID'
+            description: 'API for fetching all transaction of an account'
+            produces:
+                - 'application/json'
+            parameters:
+                - in: header
+                  type: string
+                  name: Authorization
+                  description: Attach Bearer JWT token
+                  required: true
+                - name: 'accountId'
+                  in: 'path'
+                  description: 'Id of the account'
+                  required: true
+                  type: 'string'
+            responses:
+                '200':
+                    description: 'Account transactions retrieved sucessfully'
+                    schema:
+                        $ref: '#/definitions/TransactionResponse'
+                '400':
+                    description: Invalid Fields
+                '500':
+                    description: Internal Server Error
+    /transaction/{transactionId}:
+        get:
+            security:
+                - Bearer: []
+            tags:
+                - 'Transaction Module'
+            summary: 'Find transaction by ID'
+            description: 'API for fetching a single transaction'
+            produces:
+                - 'application/json'
+            parameters:
+                - in: header
+                  type: string
+                  name: Authorization
+                  description: Attach Bearer JWT token
+                  required: true
+                - name: 'transactionId'
+                  in: 'path'
+                  description: 'Id of the transaction'
+                  required: true
+                  type: 'string'
+            responses:
+                '200':
+                    description: 'Transaction retrieved sucessfully'
+                    schema:
+                        $ref: '#/definitions/TransactionResponse'
+                '400':
+                    description: Invalid Fields
+                '500':
+                    description: Internal Server Error
+        delete:
+            security:
+                - Bearer: []
+            tags:
+                - 'Transaction Module'
+            summary: 'Delete transaction'
+            description: 'API for deleting a transaction'
+            produces:
+                - 'application/json'
+            parameters:
+                - in: header
+                  type: string
+                  name: Authorization
+                  description: Attach Bearer JWT token
+                  required: true
+                - name: 'transactionId'
+                  in: 'path'
+                  description: 'Id of the transaction'
+                  required: true
+                  type: 'string'
+            responses:
+                '200':
+                    description: 'Transaction deleted sucessfully'
+                    schema:
+                        $ref: '#/definitions/TransactionResponse'
+                '400':
+                    description: Invalid Fields
+                '500':
+                    description: Internal Server Error
+        put:
+            security:
+                - Bearer: []
+            tags:
+                - 'Transaction Module'
+            summary: 'Update an existing transaction'
+            description: 'API for updating a transaction'
+            produces:
+                - 'application/json'
+            parameters:
+                - in: header
+                  type: string
+                  name: Authorization
+                  description: Attach Bearer JWT token
+                  required: true
+                - name: 'transactionId'
+                  in: 'path'
+                  description: 'Id of the transaction'
+                  required: true
+                  type: 'string'
+                - in: body
+                  name: body
+                  description: Update transaction attributes
+                  required: true
+                  schema:
+                      $ref: '#/definitions/Transaction'
+            responses:
+                '200':
+                    description: 'Transaction retrieved sucessfully'
                     schema:
                         $ref: '#/definitions/TransactionResponse'
                 '400':
@@ -181,20 +364,28 @@ definitions:
                         type: string
                     email:
                         type: string
+    AccountResponse:
+        type: object
+        properties:
+            status:
+                type: integer
+            message:
+                type: string
+            body:
+                type: array
+                items:
+                    $ref: '#/definitions/Account'
     TransactionResponse:
-        type: array
-        items:
-            type: object
-            properties:
-                date:
-                    type: string
-                description:
-                    type: string
-                amount:
-                    type: number
-                balance:
-                    type: number
-
+        type: object
+        properties:
+            status:
+                type: integer
+            message:
+                type: string
+            body:
+                type: array
+                items:
+                    $ref: '#/definitions/Transaction'
     LoginResponse:
         type: object
         properties:
@@ -206,4 +397,34 @@ definitions:
             firstName:
                 type: string
             lastName:
+                type: string
+    Account:
+        type: object
+        properties:
+            id:
+                type: string
+            description:
+                type: string
+            amount:
+                type: number
+    Transaction:
+        type: object
+        properties:
+            id:
+                type: string
+            accountId:
+                type: string
+            date:
+                type: string
+            description:
+                type: string
+            amount:
+                type: number
+            balance:
+                type: number
+            type:
+                type: string
+            category:
+                type: string
+            notes:
                 type: string
