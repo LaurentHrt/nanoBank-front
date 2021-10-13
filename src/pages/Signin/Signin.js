@@ -4,6 +4,7 @@ import { setLoggedIn } from '../../action'
 import { useDispatch, useSelector } from 'react-redux'
 import { Redirect } from 'react-router'
 import { selectIsLoggedIn } from '../../selector'
+import { login } from './signin.actions'
 
 export function Signin() {
 	const userService = new UserService()
@@ -15,13 +16,15 @@ export function Signin() {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
-		const response = await userService.getUserToken(username, password)
-		const token = response.body?.token
-		if (token) {
-			dispatch(setLoggedIn(true, token))
-		} else {
-			window.alert(response.message)
-		}
+		dispatch(login(username, password, false))
+
+		// const response = await userService.getUserToken(username, password)
+		// const token = response.body?.token
+		// if (token) {
+		// 	dispatch(setLoggedIn(true, token))
+		// } else {
+		// 	window.alert(response.message)
+		// }
 	}
 
 	const form = (
