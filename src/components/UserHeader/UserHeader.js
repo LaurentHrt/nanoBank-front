@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { setUserInfos } from '../../action'
-import { selectToken, selectUserInfos } from '../../selector'
+import { useDispatch, useSelector, useStore } from 'react-redux'
+import { selectToken } from '../../features/signin/signin.selectors'
+import { fetchOrUpdateUserInfos } from '../../features/user/user.reducer'
+import { selectUserInfos } from '../../features/user/user.selector'
 import { UserService } from '../../utils/service/user.service'
 
 export default function UserHeader() {
 	const token = useSelector(selectToken)
 	const userInfos = useSelector(selectUserInfos)
 	const dispatch = useDispatch()
+	const store = useStore()
 
 	const [editedFirstName, setEditedFirstName] = useState({})
 	const [editedLastName, setEditedLastName] = useState({})
@@ -25,21 +27,22 @@ export default function UserHeader() {
 			token
 		)
 		if (response.status === 200 && response.body) {
-			dispatch(setUserInfos(response.body))
+			// dispatch(setUserInfos(response.body))
 			setEditMode(false)
 		} else window.alert(response.message)
 	}
 
 	useEffect(() => {
+		fetchOrUpdateUserInfos(store)
+
 		const userService = new UserService()
 		userService.getUserInfos(token).then((userInfos) => {
 			if (userInfos.body) {
-				dispatch(setUserInfos(userInfos.body))
 				setEditedFirstName(userInfos.body.firstName)
 				setEditedLastName(userInfos.body.lastName)
 			}
 		})
-	}, [token, dispatch])
+	}, [store, token, dispatch])
 
 	const textInputs = (
 		<div>

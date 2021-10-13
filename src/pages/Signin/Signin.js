@@ -1,30 +1,26 @@
 import { useState } from 'react'
-import { UserService } from '../../utils/service/user.service'
-import { setLoggedIn } from '../../action'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector, useStore } from 'react-redux'
 import { Redirect } from 'react-router'
-import { selectIsLoggedIn } from '../../selector'
-import { login } from './signin.actions'
+import { fetchorUpdateUserToken } from '../../features/signin/signin.reducer'
+import {
+	selectError,
+	selectToken,
+} from '../../features/signin/signin.selectors'
 
 export function Signin() {
-	const userService = new UserService()
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
+	const isLoggedIn = useSelector(selectToken) != null
+	const store = useStore()
 
-	const dispatch = useDispatch()
-	const isLoggedIn = useSelector(selectIsLoggedIn)
+	const errorMessage = useSelector(selectError)
+	console.log('errorMess', errorMessage)
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
-		dispatch(login(username, password, false))
+		fetchorUpdateUserToken(store, username, password)
 
-		// const response = await userService.getUserToken(username, password)
-		// const token = response.body?.token
-		// if (token) {
-		// 	dispatch(setLoggedIn(true, token))
-		// } else {
-		// 	window.alert(response.message)
-		// }
+		// TODO alert message when fail
 	}
 
 	const form = (
@@ -55,7 +51,7 @@ export function Signin() {
 						<input type="checkbox" id="remember-me" />
 						<label htmlFor="remember-me">Remember me</label>
 					</div>
-
+					<div>{errorMessage}</div>
 					<button className="sign-in-button">Sign In</button>
 				</form>
 			</section>
