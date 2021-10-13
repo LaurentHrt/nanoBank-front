@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom'
 import logo from '../../assets/images/argentBankLogo.png'
 import { useLocation } from 'react-router'
 import { setLoggedIn } from '../../action'
+import { selectIsLoggedIn } from '../../selector'
 
 export function Header() {
-	const isLoggedIn = useSelector((state) => state.isLoggedIn)
+	const isLoggedIn = useSelector(selectIsLoggedIn)
 	const location = useLocation()
 	const dispatch = useDispatch()
 

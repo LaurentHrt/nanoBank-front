@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUserInfos } from '../../action'
+import { selectToken, selectUserInfos } from '../../selector'
 import { UserService } from '../../utils/service/user.service'
 
 export default function UserHeader() {
-	const token = useSelector((state) => state.token)
-	const userInfos = useSelector((state) => state.userInfos)
+	const token = useSelector(selectToken)
+	const userInfos = useSelector(selectUserInfos)
 	const dispatch = useDispatch()
 
 	const [editedFirstName, setEditedFirstName] = useState({})
