@@ -5,12 +5,14 @@ import { fetchorUpdateUserToken } from '../../features/signin/signin.reducer'
 import {
 	selectError,
 	selectToken,
+	selectStatus,
 } from '../../features/signin/signin.selectors'
 
 export function Signin() {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 	const isLoggedIn = useSelector(selectToken) != null
+	const status = useSelector(selectStatus)
 	const store = useStore()
 
 	const errorMessage = useSelector(selectError)
@@ -19,8 +21,6 @@ export function Signin() {
 	const handleSubmit = async (e) => {
 		e.preventDefault()
 		fetchorUpdateUserToken(store, username, password)
-
-		// TODO alert message when fail
 	}
 
 	const form = (
@@ -51,7 +51,10 @@ export function Signin() {
 						<input type="checkbox" id="remember-me" />
 						<label htmlFor="remember-me">Remember me</label>
 					</div>
-					<div>{errorMessage}</div>
+					{status === 'pending' && <div className="loader"></div>}
+					{status === 'rejected' && (
+						<div className="errorMessage">{errorMessage}</div>
+					)}
 					<button className="sign-in-button">Sign In</button>
 				</form>
 			</section>
