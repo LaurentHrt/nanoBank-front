@@ -1,14 +1,10 @@
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector, useStore } from 'react-redux'
-import { selectToken } from '../../features/signin/signin.selectors'
+import { useSelector, useStore } from 'react-redux'
 import { fetchOrUpdateUserInfos } from '../../features/user/user.reducer'
 import { selectUserInfos } from '../../features/user/user.selector'
-import { UserService } from '../../utils/service/user.service'
 
 export default function UserHeader() {
-	const token = useSelector(selectToken)
 	const userInfos = useSelector(selectUserInfos)
-	const dispatch = useDispatch()
 	const store = useStore()
 
 	const [editedFirstName, setEditedFirstName] = useState({})
@@ -20,29 +16,12 @@ export default function UserHeader() {
 	}
 
 	const handleSave = async (e) => {
-		const userService = new UserService()
-		const response = await userService.renameUser(
-			editedFirstName,
-			editedLastName,
-			token
-		)
-		if (response.status === 200 && response.body) {
-			// dispatch(setUserInfos(response.body))
-			setEditMode(false)
-		} else window.alert(response.message)
+		// TODO
 	}
 
 	useEffect(() => {
 		fetchOrUpdateUserInfos(store)
-
-		const userService = new UserService()
-		userService.getUserInfos(token).then((userInfos) => {
-			if (userInfos.body) {
-				setEditedFirstName(userInfos.body.firstName)
-				setEditedLastName(userInfos.body.lastName)
-			}
-		})
-	}, [store, token, dispatch])
+	}, [store])
 
 	const textInputs = (
 		<div>

@@ -2,8 +2,8 @@ import { produce } from 'immer'
 import { selectSignin } from './signin.selectors'
 import {
 	loginAttempt,
+	loginResolved,
 	loginRejected,
-	loginSucess,
 	FETCHING,
 	REJECTED,
 	RESOLVED,
@@ -27,7 +27,7 @@ export async function fetchorUpdateUserToken(store, username, password) {
 		store.dispatch(loginAttempt())
 		const response = await userService.getUserToken(username, password)
 		if (response.status === 200)
-			store.dispatch(loginSucess(response.body.token))
+			store.dispatch(loginResolved(response.body.token))
 		else throw new Error(response.message)
 	} catch (error) {
 		store.dispatch(loginRejected(error.message))

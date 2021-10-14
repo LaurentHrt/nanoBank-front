@@ -12,7 +12,7 @@ export const logout = () => ({
 	type: LOGOUT,
 })
 
-export const loginSucess = (token) => ({
+export const loginResolved = (token) => ({
 	type: RESOLVED,
 	payload: token,
 })

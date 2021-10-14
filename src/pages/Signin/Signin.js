@@ -16,7 +16,6 @@ export function Signin() {
 	const store = useStore()
 
 	const errorMessage = useSelector(selectError)
-	console.log('errorMess', errorMessage)
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
