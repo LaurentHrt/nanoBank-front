@@ -1,22 +1,12 @@
-export const FETCHING = 'user/fetching'
-export const UPDATING = 'user/updating'
-export const RESOLVED = 'user/resolved'
-export const REJECTED = 'user/rejected'
+import { createAction } from '@reduxjs/toolkit'
 
-export const userFetching = () => ({
-	type: FETCHING,
-})
+export const userFetching = createAction('user/fetching')
+export const userResolved = createAction('user/resolved')
+export const userRejected = createAction('user/rejected')
 
-export const userUpdating = () => ({
-	type: FETCHING,
-})
-
-export const userResolved = (data) => ({
-	type: RESOLVED,
-	payload: data,
-})
-
-export const userRejected = (error) => ({
-	type: REJECTED,
-	payload: error,
-})
+export const userInputAction = createAction(
+	'user/input',
+	({ firstName, lastName }) => {
+		return { payload: { firstName, lastName } }
+	}
+)

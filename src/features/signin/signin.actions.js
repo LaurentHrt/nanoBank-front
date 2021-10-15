@@ -1,23 +1,18 @@
-export const FETCHING = 'login/attempt'
-export const LOGOUT = 'login/logout'
-export const RESOLVED = 'login/success'
-export const REJECTED = 'login/rejected'
+import { createAction } from '@reduxjs/toolkit'
 
-export const loginAttempt = (username, password) => ({
-	type: FETCHING,
-	payload: { username, password },
+export const loginAttempt = createAction(
+	'login/attempt',
+	(username, password) => {
+		return { payload: { username, password } }
+	}
+)
+
+export const logout = createAction('login/logout')
+
+export const loginResolved = createAction('login/success', (token) => {
+	return { payload: token }
 })
 
-export const logout = () => ({
-	type: LOGOUT,
-})
-
-export const loginResolved = (token) => ({
-	type: RESOLVED,
-	payload: token,
-})
-
-export const loginRejected = (errorMessage) => ({
-	type: REJECTED,
-	payload: errorMessage,
+export const loginRejected = createAction('login/rejected', (errorMessage) => {
+	return { payload: errorMessage }
 })

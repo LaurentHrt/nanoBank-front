@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react'
-import { useSelector, useStore } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { fetchOrUpdateUserInfos } from '../../features/user/user.reducer'
-import { selectUserInfos } from '../../features/user/user.selector'
+import { userInputAction } from '../../features/user/user.actions'
+import {
+	selectUserInfos,
+	selectUserInput,
+} from '../../features/user/user.selector'
 
 export default function UserHeader() {
+	const dispatch = useDispatch()
 	const userInfos = useSelector(selectUserInfos)
-	const store = useStore()
+	const userInput = useSelector(selectUserInput)
 
-	const [editedFirstName, setEditedFirstName] = useState({})
-	const [editedLastName, setEditedLastName] = useState({})
 	const [editMode, setEditMode] = useState(false)
 
 	const toogleEdit = (e) => {
@@ -16,24 +19,39 @@ export default function UserHeader() {
 	}
 
 	const handleSave = async (e) => {
+		dispatch(fetchOrUpdateUserInfos)
 		// TODO
 	}
 
 	useEffect(() => {
-		fetchOrUpdateUserInfos(store)
-	}, [store])
+		dispatch(fetchOrUpdateUserInfos)
+	}, [dispatch])
 
 	const textInputs = (
 		<div>
 			<input
 				name="firstName"
-				value={editedFirstName}
-				onChange={(e) => setEditedFirstName(e.target.value)}
+				value={userInput.firstName}
+				onChange={(e) =>
+					dispatch(
+						userInputAction({
+							firstName: e.target.value,
+							lastName: userInput.lastName,
+						})
+					)
+				}
 			/>
 			<input
 				name="lastName"
-				value={editedLastName}
-				onChange={(e) => setEditedLastName(e.target.value)}
+				value={userInput.lastName}
+				onChange={(e) =>
+					dispatch(
+						userInputAction({
+							firstName: userInput.firsNameName,
+							lastName: e.target.value,
+						})
+					)
+				}
 			/>
 		</div>
 	)

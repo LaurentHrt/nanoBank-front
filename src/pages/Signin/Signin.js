@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useSelector, useStore } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Redirect } from 'react-router'
 import { fetchorUpdateUserToken } from '../../features/signin/signin.reducer'
 import {
@@ -13,13 +13,13 @@ export function Signin() {
 	const [password, setPassword] = useState('')
 	const isLoggedIn = useSelector(selectToken) != null
 	const status = useSelector(selectStatus)
-	const store = useStore()
+	const dispatch = useDispatch()
 
 	const errorMessage = useSelector(selectError)
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
-		fetchorUpdateUserToken(store, username, password)
+		dispatch(fetchorUpdateUserToken(username, password))
 	}
 
 	const form = (
