@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Redirect } from 'react-router'
-import { fetchorUpdateUserToken } from '../../features/signin/signin.reducer'
+import { fetchorUpdateUserToken } from '../../features/authentication/authentication'
 import {
 	selectError,
 	selectToken,
 	selectStatus,
-} from '../../features/signin/signin.selectors'
+} from '../../features/authentication/authentication'
 
 export function Signin() {
 	const [username, setUsername] = useState('')

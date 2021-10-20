@@ -6,7 +6,7 @@ import {
 } from './user.actions'
 import { UserService } from '../../utils/service/user.service'
 import { selectUser, selectUserInfos, selectUserInput } from './user.selector'
-import { selectToken } from '../signin/signin.selectors'
+import { selectToken } from '../authentication/authentication'
 import { createReducer } from '@reduxjs/toolkit'
 
 const initialState = {

@@ -2,8 +2,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import logo from '../../assets/images/argentBankLogo.png'
 import { useLocation } from 'react-router'
-import { logout } from '../../features/signin/signin.actions'
-import { selectToken } from '../../features/signin/signin.selectors'
+import { logout } from '../../features/authentication/authentication'
+import { selectToken } from '../../features/authentication/authentication'
 import {
 	selectUserFirstname,
 	selectUserLastname,

@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux'
 import { Redirect } from 'react-router'
 import AccountList from '../../components/AccountList/AccountList'
 import UserHeader from '../../components/UserHeader/UserHeader'
-import { selectToken } from '../../features/signin/signin.selectors'
+import { selectToken } from '../../features/authentication/authentication'
 
 export function User() {
 	const isLoggedIn = useSelector(selectToken) != null
