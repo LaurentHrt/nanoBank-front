@@ -12,14 +12,11 @@ const initialState = {
 		updatedAt: null,
 		id: null,
 	},
-	input: {
-		firstName: null,
-		lastName: null,
-	},
 	error: null,
 }
 
 export const selectUser = (state) => state.user
+export const selectUserStatus = (state) => state.user.status
 export const selectUserInfos = (state) => state.user.data
 export const selectUserInput = (state) => state.user.input
 export const selectUserFirstname = (state) => state.user.data.firstName
@@ -27,30 +24,18 @@ export const selectUserLastname = (state) => state.user.data.lastName
 
 export async function fetchOrUpdateUserInfos(dispatch, getState) {
 	const userService = new UserService()
-	const status = selectUser(getState()).status
+	const status = selectUserStatus(getState())
 	const token = selectToken(getState())
-	const userInfos = selectUserInfos(getState())
-	const userInput = selectUserInput(getState())
 
 	if (status === 'pending' || status === 'updating') {
 		return
 	}
 
 	try {
-		let response
-		if (
-			userInfos.firstName !== userInput.firstName ||
-			userInfos.lastName !== userInput.lastName
-		) {
-			response = await userService.renameUser(
-				userInput.firstName,
-				userInput.lastName,
-				token
-			)
-		} else {
-			response = await userService.getUserInfos(token)
-		}
 		dispatch(actions.fetching())
+
+		const response = await userService.getUserInfos(token)
+
 		if (response.status === 200) {
 			dispatch(actions.resolved(response.body))
 		} else throw new Error(response.message)
@@ -82,7 +67,6 @@ const { actions, reducer } = createSlice({
 		resolved: (draft, action) => {
 			if (draft.status === 'pending' || draft.status === 'updating') {
 				draft.data = action.payload
-				draft.input = action.payload
 				draft.status = 'resolved'
 				return
 			}

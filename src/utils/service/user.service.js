@@ -27,7 +27,7 @@ export class UserService {
 	async getUserInfos(token) {
 		const request = linkToBackend + 'user/profile'
 		const headers = {
-			Authorization: 'Bearer ' + token, // ??? Backend -> tokenValidation.js l.12
+			Authorization: 'Bearer ' + token,
 			'Content-type': 'application/json',
 		}
 
@@ -46,7 +46,7 @@ export class UserService {
 	async renameUser(firstName, lastName, token) {
 		const request = linkToBackend + 'user/profile'
 		const headers = {
-			Authorization: 'Bearer ' + token, // ??? Backend -> tokenValidation.js l.12
+			Authorization: 'Bearer ' + token,
 			'Content-type': 'application/json',
 		}
 		const body = JSON.stringify({
@@ -61,6 +61,7 @@ export class UserService {
 				headers: headers,
 			})
 			const data = await response.json()
+			console.log(data)
 			return data
 		} catch (error) {
 			console.error('Unable to reach server', error)

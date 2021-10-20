@@ -7,10 +7,9 @@ const initialState = {
 	error: null,
 }
 
-export const selectSignin = (state) => state.signin
-export const selectStatus = (state) => state.signin.status
-export const selectToken = (state) => state.signin.token
-export const selectError = (state) => state.signin.error
+export const selectStatus = (state) => state.authentication.status
+export const selectToken = (state) => state.authentication.token
+export const selectError = (state) => state.authentication.error
 
 export function fetchorUpdateUserToken(username, password) {
 	return async (dispatch, getState) => {
@@ -65,7 +64,6 @@ const { actions, reducer } = createSlice({
 				if (draft.status === 'pending' || draft.status === 'updating') {
 					draft.token = action.payload
 					draft.status = 'resolved'
-					window.sessionStorage.setItem('token', action.payload)
 					return
 				}
 				return

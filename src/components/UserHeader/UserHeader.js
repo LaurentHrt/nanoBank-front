@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { renameUser } from '../../features/renameUser/renameUser'
 import {
 	fetchOrUpdateUserInfos,
 	selectUserInfos,
-	selectUserInput,
 } from '../../features/user/user'
 
 export default function UserHeader() {
 	const dispatch = useDispatch()
 	const userInfos = useSelector(selectUserInfos)
-	const userInput = useSelector(selectUserInput)
 
 	const [editMode, setEditMode] = useState(false)
 
@@ -18,7 +17,8 @@ export default function UserHeader() {
 	}
 
 	const handleSave = async (e) => {
-		dispatch(fetchOrUpdateUserInfos)
+		console.log('click save')
+		dispatch(renameUser('azerty', 'teeeqsdfgest'))
 		// TODO
 	}
 
@@ -28,8 +28,8 @@ export default function UserHeader() {
 
 	const textInputs = (
 		<div>
-			<input name="firstName" value={userInput.firstName} />
-			<input name="lastName" value={userInput.lastName} />
+			<input name="firstName" />
+			<input name="lastName" />
 		</div>
 	)
 
