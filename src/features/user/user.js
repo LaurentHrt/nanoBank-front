@@ -1,13 +1,6 @@
-import {
-	userFetching,
-	userResolved,
-	userRejected,
-	userInputAction,
-} from './user.actions'
+import { createSlice } from '@reduxjs/toolkit'
 import { UserService } from '../../utils/service/user.service'
-import { selectUser, selectUserInfos, selectUserInput } from './user.selector'
 import { selectToken } from '../authentication/authentication'
-import { createReducer } from '@reduxjs/toolkit'
 
 const initialState = {
 	status: 'void',
@@ -25,6 +18,12 @@ const initialState = {
 	},
 	error: null,
 }
+
+export const selectUser = (state) => state.user
+export const selectUserInfos = (state) => state.user.data
+export const selectUserInput = (state) => state.user.input
+export const selectUserFirstname = (state) => state.user.data.firstName
+export const selectUserLastname = (state) => state.user.data.lastName
 
 export async function fetchOrUpdateUserInfos(dispatch, getState) {
 	const userService = new UserService()
@@ -51,18 +50,20 @@ export async function fetchOrUpdateUserInfos(dispatch, getState) {
 		} else {
 			response = await userService.getUserInfos(token)
 		}
-		dispatch(userFetching())
+		dispatch(actions.fetching())
 		if (response.status === 200) {
-			dispatch(userResolved(response.body))
+			dispatch(actions.resolved(response.body))
 		} else throw new Error(response.message)
 	} catch (error) {
-		dispatch(userRejected(error.message))
+		dispatch(actions.rejected(error.message))
 	}
 }
 
-export default createReducer(initialState, (builder) => {
-	return builder
-		.addCase(userFetching, (draft) => {
+const { actions, reducer } = createSlice({
+	name: 'user',
+	initialState,
+	reducers: {
+		fetching: (draft) => {
 			if (draft.status === 'void') {
 				draft.status = 'pending'
 				return
@@ -77,12 +78,8 @@ export default createReducer(initialState, (builder) => {
 				return
 			}
 			return
-		})
-		.addCase(userInputAction, (draft, action) => {
-			draft.input.firstName = action.payload.firstName
-			draft.input.lastName = action.payload.lastName
-		})
-		.addCase(userResolved, (draft, action) => {
+		},
+		resolved: (draft, action) => {
 			if (draft.status === 'pending' || draft.status === 'updating') {
 				draft.data = action.payload
 				draft.input = action.payload
@@ -90,8 +87,8 @@ export default createReducer(initialState, (builder) => {
 				return
 			}
 			return
-		})
-		.addCase(userRejected, (draft, action) => {
+		},
+		rejected: (draft, action) => {
 			if ((draft.status = 'pending' || draft.status === 'updating')) {
 				draft.error = action.payload
 				draft.data = null
@@ -99,5 +96,8 @@ export default createReducer(initialState, (builder) => {
 				return
 			}
 			return
-		})
+		},
+	},
 })
+
+export default reducer

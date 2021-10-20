@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchOrUpdateUserInfos } from '../../features/user/user.reducer'
-import { userInputAction } from '../../features/user/user.actions'
 import {
+	fetchOrUpdateUserInfos,
 	selectUserInfos,
 	selectUserInput,
-} from '../../features/user/user.selector'
+} from '../../features/user/user'
 
 export default function UserHeader() {
 	const dispatch = useDispatch()
@@ -29,30 +28,8 @@ export default function UserHeader() {
 
 	const textInputs = (
 		<div>
-			<input
-				name="firstName"
-				value={userInput.firstName}
-				onChange={(e) =>
-					dispatch(
-						userInputAction({
-							firstName: e.target.value,
-							lastName: userInput.lastName,
-						})
-					)
-				}
-			/>
-			<input
-				name="lastName"
-				value={userInput.lastName}
-				onChange={(e) =>
-					dispatch(
-						userInputAction({
-							firstName: userInput.firsNameName,
-							lastName: e.target.value,
-						})
-					)
-				}
-			/>
+			<input name="firstName" value={userInput.firstName} />
+			<input name="lastName" value={userInput.lastName} />
 		</div>
 	)
 

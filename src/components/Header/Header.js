@@ -2,12 +2,14 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import logo from '../../assets/images/argentBankLogo.png'
 import { useLocation } from 'react-router'
-import { logout } from '../../features/authentication/authentication'
-import { selectToken } from '../../features/authentication/authentication'
+import {
+	logout,
+	selectToken,
+} from '../../features/authentication/authentication'
 import {
 	selectUserFirstname,
 	selectUserLastname,
-} from '../../features/user/user.selector'
+} from '../../features/user/user'
 
 export function Header() {
 	const isLoggedIn = useSelector(selectToken) != null
