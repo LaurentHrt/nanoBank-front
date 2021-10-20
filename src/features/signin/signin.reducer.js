@@ -1,6 +1,6 @@
 import { selectSignin } from './signin.selectors'
 import {
-	loginAttempt,
+	loginFetching,
 	loginResolved,
 	loginRejected,
 	logout,
@@ -22,7 +22,7 @@ export function fetchorUpdateUserToken(username, password) {
 			return
 		}
 		try {
-			dispatch(loginAttempt())
+			dispatch(loginFetching())
 			const response = await userService.getUserToken(username, password)
 			if (response.status === 200)
 				dispatch(loginResolved(response.body.token))
@@ -35,7 +35,7 @@ export function fetchorUpdateUserToken(username, password) {
 
 export default createReducer(initialState, (builder) => {
 	return builder
-		.addCase(loginAttempt, (draft) => {
+		.addCase(loginFetching, (draft) => {
 			if (draft.status === 'void') {
 				draft.status = 'pending'
 				return
