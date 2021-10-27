@@ -1,21 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { useDispatch } from 'react-redux'
 import { UserService } from '../../utils/service/user.service'
 import { selectToken } from '../authentication/authentication'
 import { fetchOrUpdateUserInfos, selectUserInfos } from '../user/user'
 
 const initialState = {
 	status: 'void',
-	inputs: {
-		firstName: '',
-		lastName: '',
-	},
 	APIResponse: {},
 	error: null,
 }
 
 export const selectRenameStatus = (state) => state.renameUser.status
-export const selectUserInput = (state) => state.renameUser.inputs
 
 export function renameUser(firstName, lastName) {
 	return async (dispatch, getState) => {

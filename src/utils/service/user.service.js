@@ -14,8 +14,8 @@ export class UserService {
 		try {
 			const response = await fetch(request, {
 				method: 'POST',
-				body: body,
 				headers: headers,
+				body: body,
 			})
 			const data = await response.json()
 			return data
@@ -57,8 +57,8 @@ export class UserService {
 		try {
 			const response = await fetch(request, {
 				method: 'PUT',
-				body: body,
 				headers: headers,
+				body: body,
 			})
 			const data = await response.json()
 			console.log(data)

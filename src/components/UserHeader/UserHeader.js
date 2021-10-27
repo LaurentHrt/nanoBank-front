@@ -11,15 +11,16 @@ export default function UserHeader() {
 	const userInfos = useSelector(selectUserInfos)
 
 	const [editMode, setEditMode] = useState(false)
+	const [inputFirstname, setInputFirstname] = useState(userInfos.firstName)
+	const [inputLastname, setInputLastname] = useState(userInfos.lastName)
 
 	const toogleEdit = (e) => {
 		setEditMode(!editMode)
 	}
 
 	const handleSave = async (e) => {
-		console.log('click save')
-		dispatch(renameUser('azerty', 'teeeqsdfgest'))
-		// TODO
+		dispatch(renameUser(inputFirstname, inputLastname))
+		setEditMode(false)
 	}
 
 	useEffect(() => {
@@ -28,8 +29,18 @@ export default function UserHeader() {
 
 	const textInputs = (
 		<div>
-			<input name="firstName" />
-			<input name="lastName" />
+			<input
+				name="firstName"
+				placeholder="Firstname"
+				value={inputFirstname}
+				onChange={(e) => setInputFirstname(e.target.value)}
+			/>
+			<input
+				name="lastName"
+				placeholder="Lastname"
+				value={inputLastname}
+				onChange={(e) => setInputLastname(e.target.value)}
+			/>
 		</div>
 	)
 

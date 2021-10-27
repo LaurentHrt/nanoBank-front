@@ -58,7 +58,8 @@ const { actions, reducer } = createSlice({
 				draft.status = 'pending'
 				return
 			}
-			if (draft.statut === 'resolved') {
+			if (draft.status === 'resolved') {
+				// ! En parler à Karim (status != statut)
 				draft.status = 'updating'
 				return
 			}
