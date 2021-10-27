@@ -25,9 +25,12 @@ export function fetchorUpdateUserToken(username, password) {
 			const response = await userService.getUserToken(username, password)
 			if (response.status === 200)
 				dispatch(actions.resolved(response.body.token))
-			else throw new Error(response.message)
+			else if (response.status === 400)
+				dispatch(actions.rejected(response.message))
+			else throw new Error()
 		} catch (error) {
-			dispatch(actions.rejected(error.message))
+			console.error('Error:', error)
+			dispatch(actions.rejected('Unable to reach server'))
 		}
 	}
 }

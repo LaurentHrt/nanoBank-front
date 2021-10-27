@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { UserService } from '../../utils/service/user.service'
-import { selectToken } from '../authentication/authentication'
+import { logout, selectToken } from '../authentication/authentication'
 
 const initialState = {
 	status: 'void',
@@ -34,6 +34,7 @@ export async function fetchOrUpdateUserInfos(dispatch, getState) {
 		} else throw new Error(response.message)
 	} catch (error) {
 		dispatch(actions.rejected(error.message))
+		dispatch(logout())
 	}
 }
 
@@ -68,7 +69,7 @@ const { actions, reducer } = createSlice({
 		rejected: (draft, action) => {
 			if ((draft.status = 'pending' || draft.status === 'updating')) {
 				draft.error = action.payload
-				draft.data = null
+				draft.data = {}
 				draft.status = 'rejected'
 				return
 			}

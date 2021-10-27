@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { UserService } from '../../utils/service/user.service'
-import { selectToken } from '../authentication/authentication'
+import { logout, selectToken } from '../authentication/authentication'
 import { fetchOrUpdateUserInfos, selectUserInfos } from '../user/user'
 
 const initialState = {
@@ -47,6 +47,7 @@ export function renameUser(firstName, lastName) {
 			} else throw new Error(response.message)
 		} catch (error) {
 			dispatch(actions.rejected(error.message))
+			dispatch(logout())
 		}
 	}
 }
