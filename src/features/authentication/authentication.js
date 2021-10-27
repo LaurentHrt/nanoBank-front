@@ -7,6 +7,8 @@ const initialState = {
 	error: null,
 }
 
+const sessionState = JSON.parse(sessionStorage.getItem('authState'))
+
 export const selectStatus = (state) => state.authentication.status
 export const selectToken = (state) => state.authentication.token
 export const selectError = (state) => state.authentication.error
@@ -32,7 +34,7 @@ export function fetchorUpdateUserToken(username, password) {
 
 const { actions, reducer } = createSlice({
 	name: 'authentication',
-	initialState,
+	initialState: sessionState || initialState,
 	reducers: {
 		fetching: {
 			prepare: (username, password) => {
@@ -55,7 +57,10 @@ const { actions, reducer } = createSlice({
 				return
 			},
 		},
-		logout: () => initialState,
+		logout: () => {
+			sessionStorage.clear()
+			return initialState
+		},
 		resolved: {
 			prepare: (token) => {
 				return { payload: token }

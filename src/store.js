@@ -10,3 +10,10 @@ export const store = configureStore({
 		renameUser: renameUserReducer,
 	},
 })
+
+store.subscribe(() => {
+	sessionStorage.setItem(
+		'authState',
+		JSON.stringify(store.getState().authentication)
+	)
+})

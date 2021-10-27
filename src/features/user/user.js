@@ -4,14 +4,7 @@ import { selectToken } from '../authentication/authentication'
 
 const initialState = {
 	status: 'void',
-	data: {
-		email: null,
-		firstName: null,
-		lastName: null,
-		createdAt: null,
-		updatedAt: null,
-		id: null,
-	},
+	data: {},
 	error: null,
 }
 
@@ -46,7 +39,7 @@ export async function fetchOrUpdateUserInfos(dispatch, getState) {
 
 const { actions, reducer } = createSlice({
 	name: 'user',
-	initialState,
+	initialState: initialState,
 	reducers: {
 		fetching: (draft) => {
 			if (draft.status === 'void') {
@@ -59,7 +52,6 @@ const { actions, reducer } = createSlice({
 				return
 			}
 			if (draft.status === 'resolved') {
-				// ! En parler à Karim (status != statut)
 				draft.status = 'updating'
 				return
 			}
