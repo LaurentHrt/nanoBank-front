@@ -58,7 +58,7 @@ paths:
                 '500':
                     description: Internal Server Error
     /user/profile:
-        post:
+        get:
             security:
                 - Bearer: []
             tags:
@@ -137,7 +137,7 @@ paths:
                     description: Invalid Fields
                 '500':
                     description: Internal Server Error
-    /account/{accountId}:
+    /accounts/{accountId}:
         get:
             security:
                 - Bearer: []
@@ -167,7 +167,7 @@ paths:
                     description: Invalid Fields
                 '500':
                     description: Internal Server Error
-    /account/{accountId}/transactions:
+    /accounts/{accountId}/transactions:
         get:
             security:
                 - Bearer: []
@@ -228,7 +228,7 @@ paths:
                     description: Invalid Fields
                 '500':
                     description: Internal Server Error
-    /transaction/{transactionId}:
+    /transactions/{transactionId}:
         get:
             security:
                 - Bearer: []
