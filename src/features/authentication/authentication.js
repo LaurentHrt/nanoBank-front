@@ -53,7 +53,7 @@ const { actions, reducer } = createSlice({
 					draft.status = 'pending'
 					return
 				}
-				if (draft.statut === 'resolved') {
+				if (draft.status === 'resolved') {
 					draft.status = 'updating'
 					return
 				}
