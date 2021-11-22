@@ -8,6 +8,7 @@ export default function AccountList() {
 			<h2 className="sr-only">Accounts</h2>
 			{accounts.map(({ name, amount, description }) => (
 				<Account
+					key={name}
 					name={name}
 					amount={amount}
 					description={description}
